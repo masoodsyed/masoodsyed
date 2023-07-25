@@ -1,0 +1,39 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  config.vm.box = "centos/7"
+  config.vm.box_check_update = false
+  # config.vm.network "private_network", ip: "192.168.33.10"
+  # config.vm.synced_folder "../data", "/vagrant_data"
+  # config.vm.provision "file", source:"~masyed/.ssh/id_ecdsa.pub", destination:"~/.ssh/authorized_keys"
+  # config.vm.provision "file", source:"/home/masyed/.ssh/id_rsa.pub", destination:"~/.ssh/authorized_keys"
+ 
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 2048
+   # master.cpus = 2
+  end
+
+  config.vm.define "master" do |master|
+    master.vm.network :private_network, ip: "192.168.33.10", virtualbox__intnet: true
+    master.vm.hostname = "master.puppet.vm"
+  end
+
+  config.vm.define "agent01" do |agent01|
+    agent01.vm.network :private_network, ip: "192.168.33.21", virtualbox__intnet: true
+    agent01.vm.hostname = "agent01.puppet.vm"
+  end
+
+  config.vm.define "agent02" do |agent02|
+    agent02.vm.network :private_network, ip: "192.168.33.22", virtualbox__intnet: true
+    agent02.vm.hostname = "agent02.puppet.vm"
+  end
+end
