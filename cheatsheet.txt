@@ -1,0 +1,3 @@
+
+#To remove 42 lines from a file
+sed -i 1,42d test_log
